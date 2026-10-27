@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  /* 4 x 6 in label; the program renders it at the printer resolution */
+  html, body { margin: 0; padding: 0; background: #fff; }
+  .label { box-sizing: border-box; width: 4in; height: 6in; padding: 0.12in; font-family: Arial, Helvetica, sans-serif; color: #000; }
+  .box { border: 2px solid #000; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; }
+  .row { border-bottom: 2px solid #000; padding: 8px 10px; }
+  .small { font-size: 9px; font-weight: bold; letter-spacing: 0.5px; }
+  .from { font-size: 12px; line-height: 1.35; }
+  .to { font-size: 22px; font-weight: bold; line-height: 1.25; }
+  .service { background: #000; color: #fff; font-size: 30px; font-weight: bold; text-align: center; padding: 10px; }
+  .grid { display: flex; }
+  .grid > div { flex: 1; padding: 8px 10px; }
+  .grid > div + div { border-left: 2px solid #000; }
+  .value { font-size: 18px; font-weight: bold; }
+  .route { font-size: 64px; font-weight: bold; text-align: center; letter-spacing: 4px; flex: 1; display: flex; align-items: center; justify-content: center; border-bottom: none; }
+</style>
+</head>
+<body>
+<div class="label">
+  <div class="box">
+    <div class="row from"><div class="small">FROM</div>Example Logistics Ltd<br>1 Warehouse Road, Springfield</div>
+    <div class="service">EXPRESS</div>
+    <div class="row to"><div class="small">TO</div>Jane Doe<br>12 Main Street<br>Springfield 12345</div>
+    <div class="row grid" style="padding:0">
+      <div><div class="small">WEIGHT</div><div class="value">2.4 kg</div></div>
+      <div><div class="small">PARCEL</div><div class="value">1 / 2</div></div>
+      <div><div class="small">REFERENCE</div><div class="value">PO-10045</div></div>
+    </div>
+    <div class="row route">D-SPR 04</div>
+  </div>
+</div>
+</body>
+</html>

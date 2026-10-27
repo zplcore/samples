@@ -20,7 +20,7 @@ This repository contains small, runnable samples for the .NET SDK and for the zp
 | [qr-code-to-zpl](dotnet-csharp/qr-code-to-zpl/) | [gs1-ai-128-to-zpl](dotnet-csharp/gs1-ai-128-to-zpl/) | [gs1-ai-datamatrix-to-zpl](dotnet-csharp/gs1-ai-datamatrix-to-zpl/) |
 | [gs1-ai-qr-code-to-zpl](dotnet-csharp/gs1-ai-qr-code-to-zpl/) | [gs1-ai-databar-to-zpl](dotnet-csharp/gs1-ai-databar-to-zpl/) | [check-barcode](dotnet-csharp/check-barcode/) |
 | [sunrise-2027-migration](dotnet-csharp/sunrise-2027-migration/) | [json-template-to-zpl](dotnet-csharp/json-template-to-zpl/) | [data-binding](dotnet-csharp/data-binding/) |
-| [print-to-network-printer](dotnet-csharp/print-to-network-printer/) | | |
+| [print-to-network-printer](dotnet-csharp/print-to-network-printer/) | [html-to-zpl](dotnet-csharp/html-to-zpl/) | |
 
 Descriptions: [dotnet-csharp/README.md](dotnet-csharp/README.md).
 
