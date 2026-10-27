@@ -7,13 +7,8 @@ into a ZPL `^GFA` graphic, and the ZPL is rendered again with zplCore as a check
 
 ## Prerequisites
 
-Playwright needs its Chromium once per machine. Build first, then install it (PowerShell 7):
-
-```sh
-cd dotnet-csharp/html-to-zpl
-dotnet build
-pwsh bin/Debug/net10.0/playwright.ps1 install chromium
-```
+None besides the .NET 10 SDK. On the first run the sample downloads Playwright's Chromium (about 120 MB,
+once per machine, into the Playwright cache); later runs skip that step.
 
 ## Run
 
