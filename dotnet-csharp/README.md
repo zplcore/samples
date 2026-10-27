@@ -39,3 +39,6 @@ dotnet run
 | [gs1-ai-databar-to-zpl](gs1-ai-databar-to-zpl/) | Validates GS1 Application Identifiers and creates a ZPL label with a GS1 DataBar Expanded barcode as `^GFA` graphic. |
 | [check-barcode](check-barcode/) | Checks GS1 barcode data, one code per line: AI structure, check digits, dates and lengths. |
 | [sunrise-2027-migration](sunrise-2027-migration/) | Adds a QR Code with a GS1 Digital Link URI next to the EAN/UPC of an existing ZPL label (in free space, with quiet zones) and runs the Sunrise 2027 pre-check. |
+| [json-template-to-zpl](json-template-to-zpl/) | Fills a label template (JSON) with one record (JSON) and writes the ZPL and a PNG preview. |
+| [data-binding](data-binding/) | Binds a list of C# records to one label layout: one label per record, as one ZPL file and one PDF. |
+| [print-to-network-printer](print-to-network-printer/) | Sends a ZPL file to a network label printer over raw TCP (port 9100), with a dry run when no printer address is given. |

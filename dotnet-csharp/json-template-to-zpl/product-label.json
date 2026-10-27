@@ -1,0 +1,12 @@
+{
+  "unit": "Mm",
+  "width": 76.2,
+  "height": 50.8,
+  "items": [
+    { "type": "rectangle", "name": "frame", "x": 1.5, "y": 1.5, "width": 73.2, "height": 47.8, "strokeThickness": 0.4 },
+    { "type": "text", "name": "name", "dataField": "Name", "font": "0", "fontSize": 12, "x": 4, "y": 4.5, "width": 68, "sizing": "ShrinkToFit", "minFontSize": 8 },
+    { "type": "text", "name": "sku", "expression": "\"SKU \" + [Sku]", "font": "0", "fontSize": 8, "x": 4, "y": 11 },
+    { "type": "text", "name": "price", "expression": "\"EUR \" + Format([Price], \"0.00\")", "font": "0", "fontSize": 18, "x": 40, "y": 16, "width": 32, "alignment": "Right" },
+    { "type": "barcode", "name": "ean", "symbology": "Ean13", "dataField": "Ean", "moduleWidth": 2, "barHeight": 14, "humanReadable": true, "x": 9, "y": 27 }
+  ]
+}
