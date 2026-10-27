@@ -1,0 +1,21 @@
+# zplCore Server with a folder of label templates mounted as a volume.
+# templates/shipping/label-100x150.json is called as "shipping/label-100x150"; changed or new files are picked up
+# while the server runs (the folder is polled).
+#   docker compose up -d
+#   curl localhost:8080/v1/templates
+name: zplcore-templates-volume
+
+services:
+  server:
+    image: zplcore/server:1.0.0
+    ports: ["8080:8080"]
+    volumes:
+      - ./templates:/templates:ro
+    environment:
+      # none = no login, only for a local test; in production use apikey or jwt:
+      # https://zplcore.com/docs/server/#auth
+      ZPLCORE__AUTH__MODE: none
+      # check the folder for changes every 5 seconds (default 10)
+      ZPLCORE__TEMPLATES__SOURCES__0__POLL: "00:00:05"
+    read_only: true
+    tmpfs: [/tmp]

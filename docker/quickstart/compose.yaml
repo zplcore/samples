@@ -1,0 +1,28 @@
+# zplCore Server and zplCore Designer for a local test.
+#   docker compose up -d
+#   server API:      http://localhost:8080/v1/labels/hello   (API reference: http://localhost:8080/docs)
+#   designer:        http://localhost:8081/designer/
+name: zplcore-quickstart
+
+services:
+  server:
+    image: zplcore/server:1.0.0
+    ports: ["8080:8080"]
+    volumes: ["./templates:/templates:ro"]
+    environment:
+      # none = no login, only for a local test; in production use apikey or jwt:
+      # https://zplcore.com/docs/server/#auth
+      ZPLCORE__AUTH__MODE: none
+    read_only: true
+    tmpfs: [/tmp]
+
+  designer:
+    image: zplcore/designer:1.0.0
+    ports: ["8081:8080"]
+    volumes: ["./templates:/templates:ro"]
+    environment:
+      # none = no login, only for a local test; in production use apikey or jwt:
+      # https://zplcore.com/docs/designer/#quickstart-docker
+      ZPLCORE_DESIGNER__AUTH__MODE: none
+    read_only: true
+    tmpfs: [/tmp]

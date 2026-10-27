@@ -1,0 +1,75 @@
+# zplCore Server on Kubernetes: label templates from a ConfigMap, API keys and licence key from Secrets.
+# Create the secrets first (see README.md), then: kubectl apply -f zplcore-server.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: label-templates
+data:
+  hello.json: |
+    {
+      "unit": "Mm",
+      "width": 50.8,
+      "height": 25.4,
+      "items": [
+        { "type": "text", "name": "title", "x": 3, "y": 4, "width": 44, "height": 6, "fontSize": 10, "dataField": "name" }
+      ]
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zplcore-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: zplcore-server }
+  template:
+    metadata:
+      labels: { app: zplcore-server }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: zplcore-server
+          image: zplcore/server:1.0.0
+          ports:
+            - { name: http, containerPort: 8080 }
+          env:
+            - { name: ZPLCORE__AUTH__MODE, value: apikey }
+            - { name: ZPLCORE__AUTH__APIKEYSFILE, value: /run/secrets/zplcore/api-keys }
+          volumeMounts:
+            - { name: templates, mountPath: /templates, readOnly: true }
+            - { name: api-keys, mountPath: /run/secrets/zplcore, readOnly: true }
+            - { name: license, mountPath: /run/secrets/zplcore-license, subPath: zplcore-license, readOnly: true }
+            - { name: tmp, mountPath: /tmp }
+          readinessProbe:
+            httpGet: { path: /ready, port: http }
+          livenessProbe:
+            httpGet: { path: /health, port: http }
+          resources:
+            requests: { cpu: 250m, memory: 256Mi }
+            limits: { memory: 1Gi }
+          securityContext:
+            runAsUser: 1654
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+      volumes:
+        - name: templates
+          configMap: { name: label-templates }
+        - name: api-keys
+          secret: { secretName: zplcore-api-keys }
+        - name: license
+          secret: { secretName: zplcore-license, optional: true }   # without it: evaluation mode with watermark
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zplcore-server
+spec:
+  selector: { app: zplcore-server }
+  ports:
+    - { name: http, port: 80, targetPort: http }

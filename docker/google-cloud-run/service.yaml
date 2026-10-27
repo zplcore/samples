@@ -1,0 +1,35 @@
+# zplCore Server on Google Cloud Run. Replace <project-id> and <your-template-bucket>, then:
+#   gcloud run services replace service.yaml --region <region>
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: zplcore-server
+spec:
+  template:
+    spec:
+      serviceAccountName: zplcore-server@<project-id>.iam.gserviceaccount.com
+      containers:
+        - image: docker.io/zplcore/server:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ZPLCORE__AUTH__MODE
+              value: apikey
+            - name: ZPLCORE__AUTH__APIKEYS__0
+              valueFrom:
+                secretKeyRef: { name: zplcore-api-key, key: latest }
+            # label templates from a Cloud Storage bucket, read with the service account (no key file)
+            - name: ZPLCORE__TEMPLATES__SOURCES__1__NAME
+              value: gcs
+            - name: ZPLCORE__TEMPLATES__SOURCES__1__TYPE
+              value: gcs
+            - name: ZPLCORE__TEMPLATES__SOURCES__1__BUCKET
+              value: <your-template-bucket>
+            - name: ZPLCORE__TEMPLATES__SOURCES__1__PREFIX
+              value: templates/
+          resources:
+            limits: { cpu: "1", memory: 1Gi }
+          startupProbe:
+            httpGet: { path: /health, port: 8080 }
+          livenessProbe:
+            httpGet: { path: /health, port: 8080 }

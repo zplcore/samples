@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "zplcore-server.fullname" . }}
+  labels:
+    {{- include "zplcore-server.selectorLabels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "zplcore-server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "zplcore-server.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/templates: {{ toJson .Values.templates | sha256sum }}
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: server
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - { name: http, containerPort: 8080 }
+          env:
+            - name: ZPLCORE__AUTH__MODE
+              value: {{ .Values.auth.mode | quote }}
+            {{- if eq .Values.auth.mode "apikey" }}
+            - name: ZPLCORE__AUTH__APIKEYSFILE
+              value: /run/secrets/zplcore/api-keys
+            {{- end }}
+            {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+            - { name: templates, mountPath: /templates, readOnly: true }
+            {{- if eq .Values.auth.mode "apikey" }}
+            - { name: api-keys, mountPath: /run/secrets/zplcore, readOnly: true }
+            {{- end }}
+            {{- if .Values.license.secret }}
+            - { name: license, mountPath: /run/secrets/zplcore-license, subPath: zplcore-license, readOnly: true }
+            {{- end }}
+            - { name: tmp, mountPath: /tmp }
+          readinessProbe:
+            httpGet: { path: /ready, port: http }
+          livenessProbe:
+            httpGet: { path: /health, port: http }
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            runAsUser: 1654
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+      volumes:
+        - name: templates
+          configMap:
+            name: {{ include "zplcore-server.fullname" . }}-templates
+        {{- if eq .Values.auth.mode "apikey" }}
+        - name: api-keys
+          secret:
+            secretName: {{ .Values.auth.apiKeysSecret }}
+        {{- end }}
+        {{- if .Values.license.secret }}
+        - name: license
+          secret:
+            secretName: {{ .Values.license.secret }}
+        {{- end }}
+        - name: tmp
+          emptyDir: {}

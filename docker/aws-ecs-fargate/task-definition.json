@@ -1,0 +1,43 @@
+{
+  "family": "zplcore-server",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+  "runtimePlatform": { "cpuArchitecture": "X86_64", "operatingSystemFamily": "LINUX" },
+  "executionRoleArn": "arn:aws:iam::<account-id>:role/zplcore-execution-role",
+  "taskRoleArn": "arn:aws:iam::<account-id>:role/zplcore-task-role",
+  "containerDefinitions": [
+    {
+      "name": "zplcore-server",
+      "image": "docker.io/zplcore/server:1.0.0",
+      "essential": true,
+      "portMappings": [{ "containerPort": 8080, "protocol": "tcp" }],
+      "readonlyRootFilesystem": true,
+      "user": "1654",
+      "environment": [
+        { "name": "ZPLCORE__AUTH__MODE", "value": "apikey" },
+        { "name": "ZPLCORE__TEMPLATES__SOURCES__1__NAME", "value": "s3" },
+        { "name": "ZPLCORE__TEMPLATES__SOURCES__1__TYPE", "value": "s3" },
+        { "name": "ZPLCORE__TEMPLATES__SOURCES__1__BUCKET", "value": "<your-template-bucket>" },
+        { "name": "ZPLCORE__TEMPLATES__SOURCES__1__PREFIX", "value": "templates/" },
+        { "name": "ZPLCORE__TEMPLATES__SOURCES__1__REGION", "value": "<region>" }
+      ],
+      "secrets": [
+        { "name": "ZPLCORE__AUTH__APIKEYS__0", "valueFrom": "arn:aws:secretsmanager:<region>:<account-id>:secret:zplcore/api-key" },
+        { "name": "ZPLCORE__LICENSE__KEY", "valueFrom": "arn:aws:secretsmanager:<region>:<account-id>:secret:zplcore/license" }
+      ],
+      "mountPoints": [{ "sourceVolume": "tmp", "containerPath": "/tmp" }],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/zplcore-server",
+          "awslogs-region": "<region>",
+          "awslogs-stream-prefix": "zplcore",
+          "awslogs-create-group": "true"
+        }
+      }
+    }
+  ],
+  "volumes": [{ "name": "tmp" }]
+}

@@ -1,0 +1,8 @@
+{
+  "unit": "Mm",
+  "width": 50.8,
+  "height": 25.4,
+  "items": [
+    { "type": "text", "name": "title", "x": 3, "y": 4, "width": 44, "height": 6, "fontSize": 10, "dataField": "name" }
+  ]
+}

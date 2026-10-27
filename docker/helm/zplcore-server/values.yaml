@@ -1,0 +1,42 @@
+image:
+  repository: zplcore/server
+  tag: ""                 # defaults to the chart's appVersion
+  pullPolicy: IfNotPresent
+
+replicaCount: 2
+
+auth:
+  # apikey or jwt; none only for a local test: https://zplcore.com/docs/server/#auth
+  mode: apikey
+  # existing Secret with a key "api-keys" (one API key per line, at least 16 characters each)
+  apiKeysSecret: zplcore-api-keys
+
+license:
+  # existing Secret with a key "zplcore-license"; empty = evaluation mode with watermark
+  secret: ""
+
+# label templates as files: <name>.json -> called as /v1/labels/<name>
+templates:
+  hello.json: |
+    {
+      "unit": "Mm",
+      "width": 50.8,
+      "height": 25.4,
+      "items": [
+        { "type": "text", "name": "title", "x": 3, "y": 4, "width": 44, "height": 6, "fontSize": 10, "dataField": "name" }
+      ]
+    }
+
+# extra environment variables, e.g. { name: ZPLCORE__LIMITS__MAXRENDERLABELS, value: "500" }
+extraEnv: []
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    memory: 1Gi

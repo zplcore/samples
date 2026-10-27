@@ -1,0 +1,33 @@
+# zplCore Server and zplCore Designer protected with API keys.
+#   cp .env.example .env      # then put your own keys (at least 16 characters) into .env
+#   docker compose up -d
+#   curl -X POST localhost:8080/v1/labels/hello -H "X-Api-Key: $ZPLCORE_API_KEY" -H 'Content-Type: application/json' -d '{"name":"Hello"}'
+name: zplcore-api-key
+
+services:
+  server:
+    image: zplcore/server:1.0.0
+    ports: ["8080:8080"]
+    volumes: ["./templates:/templates:ro"]
+    environment:
+      ZPLCORE__AUTH__MODE: apikey
+      ZPLCORE__AUTH__APIKEYS__0: ${ZPLCORE_API_KEY:?set ZPLCORE_API_KEY in .env}
+      # optional licence key; without it the server runs in evaluation mode with a watermark
+      ZPLCORE__LICENSE__KEY: ${ZPLCORE_LICENSE_KEY:-}
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+
+  designer:
+    image: zplcore/designer:1.0.0
+    ports: ["8081:8080"]
+    volumes: ["./templates:/templates:ro"]
+    environment:
+      ZPLCORE_DESIGNER__AUTH__MODE: apikey
+      ZPLCORE_DESIGNER__AUTH__APIKEYS__0: ${ZPLCORE_DESIGNER_API_KEY:?set ZPLCORE_DESIGNER_API_KEY in .env}
+      ZPLCORE_LICENSE: ${ZPLCORE_LICENSE_KEY:-}
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]

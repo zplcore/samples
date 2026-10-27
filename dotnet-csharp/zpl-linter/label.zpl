@@ -1,0 +1,8 @@
+^XA
+^CI28
+^PW812
+^LL406
+^FO60,40^A0N,50,50^FDLinter sample^FS
+^FO60,110^A@N,30,30,E:MISSING.TTF^FDFont that was never downloaded^FS
+^FO60,170^XGR:LOGO.GRF,1,1^FS
+^XZ

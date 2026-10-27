@@ -1,0 +1,10 @@
+{
+  "unit": "Mm",
+  "width": 60,
+  "height": 40,
+  "items": [
+    { "type": "text", "name": "name", "dataField": "Name", "font": "0", "fontSize": 11, "x": 3, "y": 3, "width": 54, "sizing": "ShrinkToFit", "minFontSize": 7 },
+    { "type": "text", "name": "price", "expression": "\"EUR \" + Format([Price], \"0.00\")", "font": "0", "fontSize": 18, "x": 3, "y": 10, "width": 54, "alignment": "Right" },
+    { "type": "barcode", "name": "ean", "symbology": "Ean13", "dataField": "Ean", "moduleWidth": 2, "barHeight": 12, "humanReadable": true, "x": 9, "y": 20 }
+  ]
+}

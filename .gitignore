@@ -1,0 +1,15 @@
+# .NET build output
+bin/
+obj/
+*.user
+.vs/
+.vscode/
+.idea/
+
+# results written by the samples
+dotnet-csharp/*/output/
+
+# local secrets
+.env
+*.license
+api-keys.txt
