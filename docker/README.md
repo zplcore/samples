@@ -5,6 +5,7 @@
 | [quickstart](quickstart/) | Server and designer with `docker compose`, without login (local test only) |
 | [api-key](api-key/) | Server and designer protected with API keys from a `.env` file |
 | [templates-volume](templates-volume/) | A folder of label templates mounted as a volume, reloaded while the server runs |
+| [zebra-nucleus](zebra-nucleus/) | Printing through Zebra Nucleus (Zebra Cloud Print API): one fixed printer and a fleet behind one entry with a serial allow-list (`?serial=`), async jobs, cancel |
 | [kubernetes](kubernetes/) | Plain Kubernetes manifests: Deployment, Service, ConfigMap, Secrets |
 | [helm](helm/) | Minimal sample Helm chart |
 | [aws-ecs-fargate](aws-ecs-fargate/) | AWS ECS on Fargate, secrets from Secrets Manager, templates from S3 |

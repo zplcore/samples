@@ -1,0 +1,28 @@
+# zplCore Server printing through Zebra Nucleus (Zebra Cloud Print API).
+# Put the Nucleus API token into secrets/zebra-nucleus.txt (Nucleus: ID icon > API Tokens; never commit it), set your
+# serial numbers in zplcore.yaml, then:
+#   docker compose up -d
+#   curl -s localhost:8080/v1/printers
+name: zplcore-zebra-nucleus
+
+services:
+  server:
+    image: zplcore/server:1.1.0
+    ports: ["8080:8080"]
+    volumes:
+      - ./templates:/templates:ro
+      - ./zplcore.yaml:/config/zplcore.yaml:ro
+    secrets:
+      - zebra-nucleus          # mounted as /run/secrets/zebra-nucleus, read by tokenFile in zplcore.yaml
+    environment:
+      # none = no login, only for a local test; in production use apikey or jwt:
+      # https://zplcore.com/docs/server/#auth
+      ZPLCORE__AUTH__MODE: none
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+
+secrets:
+  zebra-nucleus:
+    file: ./secrets/zebra-nucleus.txt

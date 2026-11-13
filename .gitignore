@@ -13,3 +13,7 @@ dotnet-csharp/*/output/
 .env
 *.license
 api-keys.txt
+
+# Zebra Nucleus API token of docker/zebra-nucleus
+docker/zebra-nucleus/secrets/*
+!docker/zebra-nucleus/secrets/.gitkeep

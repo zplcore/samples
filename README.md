@@ -20,7 +20,8 @@ This repository contains small, runnable samples for the .NET SDK and for the zp
 | [qr-code-to-zpl](dotnet-csharp/qr-code-to-zpl/) | [gs1-ai-128-to-zpl](dotnet-csharp/gs1-ai-128-to-zpl/) | [gs1-ai-datamatrix-to-zpl](dotnet-csharp/gs1-ai-datamatrix-to-zpl/) |
 | [gs1-ai-qr-code-to-zpl](dotnet-csharp/gs1-ai-qr-code-to-zpl/) | [gs1-ai-databar-to-zpl](dotnet-csharp/gs1-ai-databar-to-zpl/) | [check-barcode](dotnet-csharp/check-barcode/) |
 | [sunrise-2027-migration](dotnet-csharp/sunrise-2027-migration/) | [json-template-to-zpl](dotnet-csharp/json-template-to-zpl/) | [data-binding](dotnet-csharp/data-binding/) |
-| [print-to-network-printer](dotnet-csharp/print-to-network-printer/) | [html-to-zpl](dotnet-csharp/html-to-zpl/) | |
+| [print-to-network-printer](dotnet-csharp/print-to-network-printer/) | [html-to-zpl](dotnet-csharp/html-to-zpl/) | [zebra-nucleus-print](dotnet-csharp/zebra-nucleus-print/) |
+| [zebra-nucleus-data-binding](dotnet-csharp/zebra-nucleus-data-binding/) | [zebra-nucleus-job-status](dotnet-csharp/zebra-nucleus-job-status/) | [zebra-nucleus-error-handling](dotnet-csharp/zebra-nucleus-error-handling/) |
 
 Descriptions: [dotnet-csharp/README.md](dotnet-csharp/README.md).
 
@@ -31,11 +32,19 @@ Descriptions: [dotnet-csharp/README.md](dotnet-csharp/README.md).
 | [quickstart](docker/quickstart/) | Server and designer with `docker compose` (local test) |
 | [api-key](docker/api-key/) | API keys from a `.env` file |
 | [templates-volume](docker/templates-volume/) | Label templates from a mounted folder |
+| [zebra-nucleus](docker/zebra-nucleus/) | Printing through Zebra Nucleus (Cloud Print API): one printer or a fleet with a serial allow-list |
 | [kubernetes](docker/kubernetes/) | Plain Kubernetes manifests |
 | [helm](docker/helm/) | Minimal sample Helm chart |
 | [aws-ecs-fargate](docker/aws-ecs-fargate/) | AWS ECS on Fargate |
 | [azure-container-apps](docker/azure-container-apps/) | Azure Container Apps |
 | [google-cloud-run](docker/google-cloud-run/) | Google Cloud Run |
+
+### Zebra Nucleus (Zebra Cloud Print API)
+
+Print on any printer enrolled in a Zebra Nucleus tenant, addressed by its serial number - no VPN, no port
+forwarding, no network route to the printer. Start with [zebra-nucleus-print](dotnet-csharp/zebra-nucleus-print/)
+(SDK) or [docker/zebra-nucleus](docker/zebra-nucleus/) (zplCore Server). All samples run as a dry run without a
+Nucleus token. Documentation: [zplcore.com/docs/printing/#nucleus](https://zplcore.com/docs/printing/#nucleus).
 
 ## Prerequisites
 

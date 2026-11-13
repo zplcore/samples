@@ -43,3 +43,7 @@ dotnet run
 | [data-binding](data-binding/) | Binds a list of C# records to one label layout: one label per record, as one ZPL file and one PDF. |
 | [html-to-zpl](html-to-zpl/) | Renders an HTML label with headless Chromium (Playwright) at label size and printer resolution and converts it into a ZPL `^GFA` graphic. |
 | [print-to-network-printer](print-to-network-printer/) | Sends a ZPL file to a network label printer over raw TCP (port 9100), with a dry run when no printer address is given. |
+| [zebra-nucleus-print](zebra-nucleus-print/) | Prints a ZPL file through Zebra Nucleus (Zebra Cloud Print API) on a printer addressed by its serial number - no VPN, no open port; job id, printer alerts, wait for COMPLETED. |
+| [zebra-nucleus-data-binding](zebra-nucleus-data-binding/) | Binds C# records to a label layout and prints all labels as one job through Zebra Nucleus. |
+| [zebra-nucleus-job-status](zebra-nucleus-job-status/) | Prints on several Nucleus printers in one call, reads a job's status, waits for a final state and cancels a pending job. |
+| [zebra-nucleus-error-handling](zebra-nucleus-error-handling/) | Production error handling for Zebra Nucleus: every error kind with what to do, safe retries, no double print on an unknown outcome. |

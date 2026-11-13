@@ -1,0 +1,29 @@
+# zplCore Server configuration with Zebra Nucleus printers (type: zebracloud).
+# Reference: https://zplcore.com/docs/server/#nucleus
+# The token never goes into this file (the server refuses to start) - only tokenFile or the environment variable
+# ZPLCORE__PRINTERS__<NAME>__TOKEN.
+
+templates:
+  sources:
+    - name: local
+      type: volume
+      path: /templates          # ./templates, mounted by compose.yaml
+
+printers:
+  # one printer: always prints on this serial number
+  store-hamburg:
+    type: zebracloud
+    serial: XXZJJ174600974                  # serial number of the printer in your Nucleus tenant
+    tokenFile: /run/secrets/zebra-nucleus
+    profile: ZD421d-203                     # printer twin checks every label against this model before sending
+    twin: block                             # a label the printer would misprint is not sent (422)
+    waitForCompletion: true                 # the job only counts as printed when Nucleus reports COMPLETED
+    completionTimeout: 00:02:00
+
+  # a whole fleet behind one entry: the request picks the printer with ?serial=, the server only allows serial numbers
+  # from this list (exact values or * patterns) - a request can never print on an arbitrary printer of the tenant
+  stores:
+    type: zebracloud
+    serials: [ "XXZJJ1746*", "50J2042*" ]   # no "serial": every request must name one
+    tokenFile: /run/secrets/zebra-nucleus
+    waitForCompletion: true
